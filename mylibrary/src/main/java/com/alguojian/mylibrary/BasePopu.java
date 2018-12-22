@@ -18,7 +18,7 @@ import android.widget.PopupWindow;
  * @author alguojian
  * @date 2018/12/21
  */
-public class BasePopu<T extends ViewDataBinding> extends PopupWindow {
+public class BasePopu extends PopupWindow {
 
     public ViewDataBinding T;
     public Context mContext;
@@ -26,17 +26,12 @@ public class BasePopu<T extends ViewDataBinding> extends PopupWindow {
 
     public BasePopu(Context context, View view, int width, int height) {
         super(view, width, height, true);
+        mContext=context;
         window = ((Activity) mContext).getWindow();
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        setOutsideTouchable(true);
+        setOutsideTouchable(false);
+        setFocusable(false);
         setTouchable(true);
-
-        setOnDismissListener(() -> {
-            WindowManager.LayoutParams lp = window.getAttributes();
-            lp.alpha = 1.0f;
-            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            window.setAttributes(lp);
-        });
     }
 
 
@@ -56,11 +51,6 @@ public class BasePopu<T extends ViewDataBinding> extends PopupWindow {
     @Override
     public void showAsDropDown(View anchor, int xoff, int yoff) {
         super.showAsDropDown(anchor, xoff, yoff);
-
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.alpha = 0.3f;
-        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        window.setAttributes(lp);
     }
 
     //显示在某个view的某个方向，可以添加偏移量

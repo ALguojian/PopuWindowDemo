@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 
 import com.alguojian.mylibrary.BasePopu
 import com.alguojian.popuwindowdemo.databinding.PopuOneBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * ${Descript}
@@ -17,15 +18,26 @@ import com.alguojian.popuwindowdemo.databinding.PopuOneBinding
  */
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var basePopu: BasePopu
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val inflate = DataBindingUtil.inflate<PopuOneBinding>(LayoutInflater.from(this), R.layout.popu_one, null, false)
+        basePopu = BasePopu(this, inflate.root, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
 
-        val basePopu = BasePopu(this, inflate.root, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        basePopu.showAsDropDown()
+
+        button2.setOnClickListener { finish() }
+
+        button.setOnClickListener {
+
+            if (basePopu.isShowing) {
+                basePopu.dismiss()
+                return@setOnClickListener
+            }
+
+            basePopu.showAsDropDown(button)
+            inflate.button.setOnClickListener { println("---------adsasdasdadasdad") }
+        }
     }
-
-
 }
